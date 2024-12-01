@@ -29,11 +29,10 @@ fun main() {
         "spg",
         "spg",
         "spg",
-        "spg",
-        "spg",
         "states",
         "test_account",
-        "active_account"
+        "active_account",
+        "fake_account"
     )
 
     println("Run with -> ${customArgs.contentToString()}")

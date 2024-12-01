@@ -7,11 +7,9 @@ import io.github.andersori.products.core.usecases.variables.unique.FindSPG
 import io.github.andersori.products.core.usecases.variables.unique.FindStates
 
 class MappedVariablesBasedOnClient(
-    private val findSPG: FindSPG = FindSPG(),
-    private val findStates: FindStates = FindStates(),
     vars: Map<String, Finder<Client, *>> = mapOf(
-        findSPG.key() to findSPG,
-        findStates.key() to findStates
+        FindSPG().let { it.key() to it },
+        FindStates().let { it.key() to it }
     )
 ) : MappedVariables<String, Client>(vars) {
 
