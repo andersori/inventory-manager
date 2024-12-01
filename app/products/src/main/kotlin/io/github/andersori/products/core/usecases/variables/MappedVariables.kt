@@ -1,18 +1,26 @@
 package io.github.andersori.products.core.usecases.variables
 
 import io.github.andersori.products.core.Finder
+import io.github.andersori.products.core.exceptions.VariableNotFound
 
-abstract class MappedVariables<E, T>(private val vars: Map<String, Finder<T, *>>) {
+abstract class MappedVariables<E, T>(private val mappedVars: Map<String, Finder<T, *>>) {
 
     companion object {
         fun <E, T> getDefaultFinder() = object : Finder<E, T>() {}
     }
 
-    fun configRootHandler(vararg keys: String): Finder<E, T> {
+    fun configRootHandler(vararg vars: String): Finder<E, T> {
+        return configRootHandler(
+            ignoreUnknownVar = true,
+            vars = vars
+        )
+    }
+
+    fun configRootHandler(ignoreUnknownVar: Boolean, vararg vars: String): Finder<E, T> {
         val root = getNewRoot()
 
-        val foundKeys = keys.associate { key ->
-            addHandlers(vars[key.uppercase()], key, root)
+        val foundKeys = vars.associate { key ->
+            addHandlers(mappedVars[key.uppercase()], key, ignoreUnknownVar, root)
         }.filterValues { it != null }
 
         if (foundKeys.isEmpty()) {
@@ -27,12 +35,17 @@ abstract class MappedVariables<E, T>(private val vars: Map<String, Finder<T, *>>
     private fun addHandlers(
         finder: Finder<T, *>?,
         key: String,
+        ignoreUnknownVar: Boolean,
         root: Finder<E, T>
     ): Pair<String, Finder<E, T>?> {
         return if (finder != null) {
             key to root.addNext(finder)
         } else {
-            key to null
+            if (ignoreUnknownVar) {
+                key to null
+            } else {
+                throw VariableNotFound("var $key not found")
+            }
         }
     }
 }

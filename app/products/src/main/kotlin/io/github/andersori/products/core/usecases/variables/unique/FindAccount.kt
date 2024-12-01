@@ -2,10 +2,9 @@ package io.github.andersori.products.core.usecases.variables.unique
 
 import io.github.andersori.products.core.Finder
 import io.github.andersori.products.core.domain.Account
-import io.github.andersori.products.core.ports.AccountInformation
+import io.github.andersori.products.core.ports.out.AccountInformation
 import io.github.andersori.utils.CustomLoggerFactory
 import io.github.andersori.utils.Logger
-import java.util.UUID
 
 class FindAccount(
     private val accountInformation: AccountInformation

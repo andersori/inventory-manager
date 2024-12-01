@@ -2,8 +2,8 @@ package io.github.andersori.products.application
 
 import io.github.andersori.products.core.domain.Account
 import io.github.andersori.products.core.domain.Client
-import io.github.andersori.products.core.ports.AccountInformation
-import io.github.andersori.products.core.ports.ClientInformation
+import io.github.andersori.products.core.ports.out.AccountInformation
+import io.github.andersori.products.core.ports.out.ClientInformation
 import io.github.andersori.products.core.usecases.AsyncSearchAllVariables
 import io.github.andersori.products.core.usecases.SyncSearchAllVariables
 import io.github.andersori.products.core.usecases.impl.SearchAllVariables

@@ -1,4 +1,4 @@
-package io.github.andersori.products.core.ports
+package io.github.andersori.products.core.ports.out
 
 import io.github.andersori.products.core.domain.Client
 import io.github.andersori.products.core.exceptions.ClientNotFound

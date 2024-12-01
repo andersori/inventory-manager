@@ -1,9 +1,16 @@
 package io.github.andersori.products.core
 
+import io.github.andersori.products.core.exceptions.BaseException
 import io.github.andersori.products.core.exceptions.MethodNotImplemented
+import io.github.andersori.utils.CustomLoggerFactory
+import io.github.andersori.utils.Logger
 import java.util.stream.Collectors
 
 abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier, Result> {
+    companion object {
+        private val logger: Logger = CustomLoggerFactory.inline(Finder::class.java)
+    }
+
     private val key: String = key.uppercase()
     private val nextHandlers: MutableList<Handler<Result, *>> = mutableListOf()
 
@@ -25,7 +32,8 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
             } else {
                 mapOf(key() to result)
             }
-        } catch (ex: RuntimeException) {
+        } catch (ex: BaseException) {
+            logger.error(ex.message)
             if (!ignoreError) {
                 throw ex
             }
@@ -35,5 +43,6 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
 
     override fun key(): String = key
 
+    @Throws(BaseException::class)
     override fun execute(identifier: Identifier): Result = throw MethodNotImplemented(this.javaClass.name)
 }

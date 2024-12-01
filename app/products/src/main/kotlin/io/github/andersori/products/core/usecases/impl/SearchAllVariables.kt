@@ -33,10 +33,10 @@ class SearchAllVariables(
 
     override fun syncSearch(identifier: String, vararg keys: String): Map<String, *> {
         val distinctKeys = keys.distinct().toTypedArray()
-        val vars1 = mappedVariablesBasedOnClient.configRootHandler(*distinctKeys)
-            .handler(identifier = identifier, ignoreError = true)
-        val vars2 = mappedVariablesBasedOnAccount.configRootHandler(*distinctKeys)
+        val vars1 = mappedVariablesBasedOnClient.configRootHandler(true, *distinctKeys)
             .handler(identifier = identifier, ignoreError = false)
+        val vars2 = mappedVariablesBasedOnAccount.configRootHandler(true, *distinctKeys)
+            .handler(identifier = identifier, ignoreError = true)
         return vars1 + vars2
     }
 }
