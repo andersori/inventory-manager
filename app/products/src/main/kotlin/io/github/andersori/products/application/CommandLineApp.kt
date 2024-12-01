@@ -8,6 +8,7 @@ import io.github.andersori.products.core.usecases.variables.MappedVariablesBased
 import io.github.andersori.utils.CustomLoggerFactory
 import io.github.andersori.utils.Logger
 import kotlinx.coroutines.runBlocking
+import kotlin.system.measureNanoTime
 
 class CommandLineApp {
     companion object {
@@ -37,23 +38,38 @@ fun main() {
 
     println("Run with -> ${customArgs.contentToString()}")
     println("-----------------------------------------------")
-    println(
-        "Sync Result -> ${
-            syncSearchAllVariables.syncSearch(
-                "1234",
-                *customArgs
+    val elapsedTime1 = measureNanoTime {
+        try {
+            println(
+                "Sync Result -> ${
+                    syncSearchAllVariables.syncSearch(
+                        identifier = "1234",
+                        *customArgs
+                    )
+                }"
             )
-        }"
-    )
-    println("-----------------------------------------------")
-    runBlocking {
-        println(
-            "Sync Result -> ${
-                asyncSearchAllVariables.asyncSearch(
-                    "1234",
-                    *customArgs
-                )
-            }"
-        )
+        } catch (ex: RuntimeException) {
+            ex.printStackTrace()
+        }
     }
+    println("Tempo de execução: ${elapsedTime1 / 1_000_000}ms")
+
+    println("-----------------------------------------------")
+    val elapsedTime2 = measureNanoTime {
+        try {
+            runBlocking {
+                println(
+                    "Sync Result -> ${
+                        asyncSearchAllVariables.asyncSearch(
+                            identifier = "1234",
+                            *customArgs
+                        )
+                    }"
+                )
+            }
+        } catch (ex: RuntimeException) {
+            ex.printStackTrace()
+        }
+    }
+    println("Tempo de execução: ${elapsedTime2 / 1_000_000}ms")
 }

@@ -14,7 +14,7 @@ class FindClient : Finder<String, Client>(key = "CLIENT") {
     override fun execute(identifier: String): Client {
         logger.info("buscando o ${key()} para o id $identifier")
         return Client(
-            cpf = "000.000.003-00"
+            cpf = "000.000.004-00"
         )
     }
 }

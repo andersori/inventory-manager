@@ -12,13 +12,13 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
         return this
     }
 
-    override fun handler(identifier: Identifier): Map<String, *> {
+    override fun handler(identifier: Identifier, ignoreError: Boolean): Map<String, *> {
         return try {
             val result = execute(identifier)
             return if (nextHandlers.isNotEmpty()) {
                 nextHandlers
                     .parallelStream()
-                    .map { handler -> handler.handler(result) }
+                    .map { handler -> handler.handler(result, ignoreError) }
                     .collect(Collectors.toList())
                     .flatMap { it.entries }
                     .associate { it.toPair() }
@@ -26,6 +26,9 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
                 mapOf(key() to result)
             }
         } catch (ex: RuntimeException) {
+            if (!ignoreError) {
+                throw ex
+            }
             emptyMap<String, Any>()
         }
     }

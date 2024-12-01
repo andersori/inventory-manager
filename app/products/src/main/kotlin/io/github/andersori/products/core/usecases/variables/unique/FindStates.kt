@@ -14,6 +14,7 @@ class FindStates : Finder<Client, List<String>>(key = "STATES") {
 
     override fun execute(identifier: Client): List<String> {
         logger.info("buscando o ${key()} para o id $identifier")
+        States.getSender(identifier.cpf.replace(".", "").replace("-", "")[8].digitToInt()).names
         return try {
             States.getSender(identifier.cpf.replace(".", "").replace("-", "")[8].digitToInt()).names
         } catch (ex: StateNotFound) {
