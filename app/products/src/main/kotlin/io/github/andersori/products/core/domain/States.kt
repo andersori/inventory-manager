@@ -9,7 +9,7 @@ enum class States(val id: Int, val names: List<String>) {
     companion object {
         @Throws(StateNotFound::class)
         fun getSender(id: Int): States {
-            return States.entries.firstOrNull { it.id == id } ?: throw StateNotFound("Identificador não encontrado")
+            return States.entries.firstOrNull { it.id == id } ?: throw StateNotFound("Identificador $id não encontrado")
         }
     }
 }

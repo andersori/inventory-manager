@@ -20,8 +20,17 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
     }
 
     override fun handler(identifier: Identifier, ignoreError: Boolean): Map<String, *> {
-        return try {
-            val result = execute(identifier)
+        val result = try {
+            execute(identifier)
+        } catch (ex: BaseException) {
+            logger.error(ex.message)
+            if (!ignoreError) {
+                throw ex
+            } else {
+                null
+            }
+        }
+        return if (result != null) {
             return if (nextHandlers.isNotEmpty()) {
                 nextHandlers
                     .parallelStream()
@@ -32,11 +41,7 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
             } else {
                 mapOf(key() to result)
             }
-        } catch (ex: BaseException) {
-            logger.error(ex.message)
-            if (!ignoreError) {
-                throw ex
-            }
+        } else {
             emptyMap<String, Any>()
         }
     }
