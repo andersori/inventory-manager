@@ -23,3 +23,4 @@ rootProject.name = "app"
 // Learn more about structuring projects with Gradle - https://docs.gradle.org/8.7/userguide/multi_project_builds.html
 include(":api")
 include(":utils")
+include(":products")
