@@ -9,30 +9,12 @@ import io.github.andersori.products.core.usecases.variables.unique.FindTestUser
 class MappedVariablesBasedOnAccount(
     private val findTestUser: FindTestUser = FindTestUser(),
     private val findActiveUser: FindActiveUser = FindActiveUser(),
-    vars: Map<String, Finder<*, *>> = mapOf(
+    vars: Map<String, Finder<Account, *>> = mapOf(
         findTestUser.key() to findTestUser,
         findActiveUser.key() to findActiveUser
     )
 ) : MappedVariables<String, Account>(vars) {
 
     override fun getNewRoot(): Finder<String, Account> = FindAccount()
-
-    override fun addHandlers(
-        finder: Finder<*, *>?,
-        key: String,
-        root: Finder<String, Account>
-    ): Pair<String, Finder<String, Account>?> = when (finder?.key()) {
-        findTestUser.key() -> {
-            key to root.addNext(findTestUser)
-        }
-
-        findActiveUser.key() -> {
-            key to root.addNext(findActiveUser)
-        }
-
-        else -> {
-            key to null
-        }
-    }
 
 }

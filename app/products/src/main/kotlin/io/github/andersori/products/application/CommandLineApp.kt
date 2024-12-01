@@ -22,11 +22,11 @@ fun main(vararg args: String) {
     )
 
     val customArgs = arrayOf(
-        "rdg",
-        "rdg",
-        "rdg",
-        "rdg",
-        "rdg",
+        "spg",
+        "spg",
+        "spg",
+        "spg",
+        "spg",
         "states",
         "test_user",
         "active_user"

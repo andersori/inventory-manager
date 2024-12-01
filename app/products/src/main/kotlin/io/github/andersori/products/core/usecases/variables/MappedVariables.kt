@@ -2,7 +2,7 @@ package io.github.andersori.products.core.usecases.variables
 
 import io.github.andersori.products.core.Finder
 
-abstract class MappedVariables<E, T>(private val vars: Map<String, Finder<*, *>>) {
+abstract class MappedVariables<E, T>(private val vars: Map<String, Finder<T, *>>) {
 
     companion object {
         fun <E, T> getDefaultFinder() = object : Finder<E, T>() {}
@@ -24,9 +24,15 @@ abstract class MappedVariables<E, T>(private val vars: Map<String, Finder<*, *>>
 
     abstract fun getNewRoot(): Finder<E, T>
 
-    abstract fun addHandlers(
-        finder: Finder<*, *>?,
+    private fun addHandlers(
+        finder: Finder<T, *>?,
         key: String,
         root: Finder<E, T>
-    ): Pair<String, Finder<E, T>?>
+    ): Pair<String, Finder<E, T>?> {
+        return if (finder != null) {
+            key to root.addNext(finder)
+        } else {
+            key to null
+        }
+    }
 }
