@@ -5,9 +5,9 @@ import io.github.andersori.products.core.domain.Account
 import io.github.andersori.utils.CustomLoggerFactory
 import io.github.andersori.utils.Logger
 
-class FindTestUser : Finder<Account, Boolean>(key = "TEST_USER") {
+class FindTestAccount : Finder<Account, Boolean>(key = "TEST_ACCOUNT") {
     companion object {
-        private val logger: Logger = CustomLoggerFactory.inline(FindTestUser::class.java)
+        private val logger: Logger = CustomLoggerFactory.inline(FindTestAccount::class.java)
     }
 
     override fun execute(identifier: Account): Boolean {

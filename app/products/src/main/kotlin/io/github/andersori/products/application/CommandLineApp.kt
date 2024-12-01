@@ -1,6 +1,8 @@
 package io.github.andersori.products.application
 
-import io.github.andersori.products.core.usecases.SearchAllVariables
+import io.github.andersori.products.core.usecases.AsyncSearchAllVariables
+import io.github.andersori.products.core.usecases.SyncSearchAllVariables
+import io.github.andersori.products.core.usecases.impl.SearchAllVariables
 import io.github.andersori.products.core.usecases.variables.MappedVariablesBasedOnAccount
 import io.github.andersori.products.core.usecases.variables.MappedVariablesBasedOnClient
 import io.github.andersori.utils.CustomLoggerFactory
@@ -13,13 +15,15 @@ class CommandLineApp {
     }
 }
 
-fun main(vararg args: String) {
+fun main() {
     CommandLineApp.logger.info("iniciando CommandLineApp")
 
-    val searchAllVariables = SearchAllVariables(
+    val searchImplementation = SearchAllVariables(
         mappedVariablesBasedOnClient = MappedVariablesBasedOnClient(),
         mappedVariablesBasedOnAccount = MappedVariablesBasedOnAccount()
     )
+    val syncSearchAllVariables: SyncSearchAllVariables = searchImplementation
+    val asyncSearchAllVariables: AsyncSearchAllVariables = searchImplementation
 
     val customArgs = arrayOf(
         "spg",
@@ -28,15 +32,15 @@ fun main(vararg args: String) {
         "spg",
         "spg",
         "states",
-        "test_user",
-        "active_user"
+        "test_account",
+        "active_account"
     )
 
     println("Run with -> ${customArgs.contentToString()}")
     println("-----------------------------------------------")
     println(
         "Sync Result -> ${
-            searchAllVariables.search(
+            syncSearchAllVariables.syncSearch(
                 "1234",
                 *customArgs
             )
@@ -46,7 +50,7 @@ fun main(vararg args: String) {
     runBlocking {
         println(
             "Sync Result -> ${
-                searchAllVariables.asyncSearch(
+                asyncSearchAllVariables.asyncSearch(
                     "1234",
                     *customArgs
                 )
