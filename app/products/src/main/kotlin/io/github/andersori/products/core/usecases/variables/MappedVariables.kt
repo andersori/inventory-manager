@@ -1,12 +1,17 @@
 package io.github.andersori.products.core.usecases.variables
 
 import io.github.andersori.products.core.Finder
+import io.github.andersori.products.core.exceptions.UnnecessaryExecution
 import io.github.andersori.products.core.exceptions.VariableNotFound
 
 abstract class MappedVariables<E, T>(private val mappedVars: Map<String, Finder<T, *>>) {
 
     companion object {
-        fun <E, T> getDefaultFinder() = object : Finder<E, T>() {}
+        fun <E, T> getDefaultFinder(rootKey: String) = object : Finder<E, T>(rootKey) {
+            override fun execute(identifier: E): T {
+                throw UnnecessaryExecution("for key = ${key()}")
+            }
+        }
     }
 
     fun configRootHandler(vararg vars: String): Finder<E, T> {
@@ -24,7 +29,7 @@ abstract class MappedVariables<E, T>(private val mappedVars: Map<String, Finder<
         }.filterValues { it != null }
 
         if (foundKeys.isEmpty()) {
-            return getDefaultFinder()
+            return getDefaultFinder(root.key())
         }
 
         return root

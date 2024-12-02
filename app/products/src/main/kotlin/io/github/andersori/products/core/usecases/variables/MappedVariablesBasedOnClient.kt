@@ -9,11 +9,12 @@ import io.github.andersori.products.core.usecases.variables.unique.FindStates
 
 class MappedVariablesBasedOnClient(
     private val clientInformation: ClientInformation,
-    vars: Map<String, Finder<Client, *>> = mapOf(
+) : MappedVariables<String, Client>(
+    mappedVars = mapOf(
         FindSPG().let { it.key() to it },
         FindStates().let { it.key() to it }
     )
-) : MappedVariables<String, Client>(mappedVars = vars) {
+) {
 
     override fun getNewRoot(): Finder<String, Client> = FindClient(clientInformation)
 

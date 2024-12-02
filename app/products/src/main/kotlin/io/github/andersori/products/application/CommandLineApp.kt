@@ -61,7 +61,7 @@ fun main() {
         try {
             println(
                 "Sync Result -> ${
-                    syncSearchAllVariables.syncSearch(
+                    syncSearchAllVariables.search(
                         identifier = "1234",
                         *customArgs
                     )

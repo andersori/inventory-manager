@@ -1,15 +1,13 @@
 package io.github.andersori.products.core
 
-import io.github.andersori.products.core.exceptions.BaseException
-import io.github.andersori.products.core.exceptions.MethodNotImplemented
 import io.github.andersori.utils.CustomLoggerFactory
 import io.github.andersori.utils.Logger
 import java.util.stream.Collectors
 
-abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier, Result> {
-    companion object {
-        private val logger: Logger = CustomLoggerFactory.inline(Finder::class.java)
-    }
+abstract class Finder<Identifier, Result>(
+    key: String,
+    val logger: Logger = CustomLoggerFactory.inline(Finder::class.java)
+) : Handler<Identifier, Result>, Command<Identifier, Result> {
 
     private val key: String = key.uppercase()
     private val nextHandlers: MutableList<Handler<Result, *>> = mutableListOf()
@@ -22,8 +20,8 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
     override fun handler(identifier: Identifier, ignoreError: Boolean): Map<String, *> {
         val result = try {
             execute(identifier)
-        } catch (ex: BaseException) {
-            logger.error(ex.message)
+        } catch (ex: RuntimeException) {
+            logger.error(ex.message ?: "erro desconhecido")
             if (!ignoreError) {
                 throw ex
             } else {
@@ -46,8 +44,5 @@ abstract class Finder<Identifier, Result>(key: String = "") : Handler<Identifier
         }
     }
 
-    override fun key(): String = key
-
-    @Throws(BaseException::class)
-    override fun execute(identifier: Identifier): Result = throw MethodNotImplemented(this.javaClass.name)
+    fun key(): String = key
 }

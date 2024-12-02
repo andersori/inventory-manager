@@ -5,7 +5,7 @@ import io.github.andersori.utils.impl.SuspendLoggerInlineImpl
 
 class CustomLoggerFactory {
     companion object {
-        fun <T> inline(clazz: Class<T>) = LoggerInlineImpl(clazz)
-        fun <T> inlineSuspend(clazz: Class<T>) = SuspendLoggerInlineImpl(clazz)
+        fun <T> inline(clazz: Class<T>): Logger = LoggerInlineImpl(clazz)
+        fun <T> inlineSuspend(clazz: Class<T>): SuspendLogger = SuspendLoggerInlineImpl(clazz)
     }
 }

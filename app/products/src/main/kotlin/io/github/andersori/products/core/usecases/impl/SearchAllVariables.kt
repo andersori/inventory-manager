@@ -11,13 +11,10 @@ import java.util.concurrent.Executors
 
 class SearchAllVariables(
     private val mappedVariablesBasedOnClient: MappedVariablesBasedOnClient,
-    private val mappedVariablesBasedOnAccount: MappedVariablesBasedOnAccount
+    private val mappedVariablesBasedOnAccount: MappedVariablesBasedOnAccount,
+    private val logger: Logger = CustomLoggerFactory.inline(SearchAllVariables::class.java)
 ) : SyncSearchAllVariables, AsyncSearchAllVariables {
     private val customDispatcher = Executors.newFixedThreadPool(2).asCoroutineDispatcher()
-
-    companion object {
-        private val logger: Logger = CustomLoggerFactory.inline(SearchAllVariables::class.java)
-    }
 
     override suspend fun asyncSearch(identifier: String, vararg keys: String): Map<String, *> {
         val distinctKeys = keys.distinct().toTypedArray()
@@ -31,11 +28,11 @@ class SearchAllVariables(
         }
     }
 
-    override fun syncSearch(identifier: String, vararg keys: String): Map<String, *> {
+    override fun search(identifier: String, vararg keys: String): Map<String, *> {
         val distinctKeys = keys.distinct().toTypedArray()
-        val vars1 = mappedVariablesBasedOnClient.configRootHandler(true, *distinctKeys)
-            .handler(identifier = identifier, ignoreError = false)
-        val vars2 = mappedVariablesBasedOnAccount.configRootHandler(true, *distinctKeys)
+        val vars1 = mappedVariablesBasedOnClient.configRootHandler(ignoreUnknownVar = true, *distinctKeys)
+            .handler(identifier = identifier, ignoreError = true)
+        val vars2 = mappedVariablesBasedOnAccount.configRootHandler(ignoreUnknownVar = true, *distinctKeys)
             .handler(identifier = identifier, ignoreError = true)
         return vars1 + vars2
     }

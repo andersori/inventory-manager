@@ -2,7 +2,7 @@ package io.github.andersori.products.core
 
 import kotlinx.coroutines.*
 
-interface Handler<Identifier, Result> : Command<Identifier, Result> {
+interface Handler<Identifier, Result> {
     fun addNext(handler: Handler<Result, *>): Handler<Identifier, Result>
     fun handler(identifier: Identifier, ignoreError: Boolean = true): Map<String, *>
     suspend fun asyncHandler(

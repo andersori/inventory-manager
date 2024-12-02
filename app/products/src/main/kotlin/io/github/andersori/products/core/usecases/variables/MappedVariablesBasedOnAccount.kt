@@ -10,12 +10,13 @@ import io.github.andersori.products.core.usecases.variables.unique.FindTestAccou
 
 class MappedVariablesBasedOnAccount(
     private val accountInformation: AccountInformation,
-    vars: Map<String, Finder<Account, *>> = mapOf(
+) : MappedVariables<String, Account>(
+    mappedVars = mapOf(
         FindTestAccount().let { it.key() to it },
         FindActiveAccount().let { it.key() to it },
         FindFakeAccount().let { it.key() to it }
     )
-) : MappedVariables<String, Account>(mappedVars = vars) {
+) {
 
     override fun getNewRoot(): Finder<String, Account> = FindAccount(accountInformation)
 
