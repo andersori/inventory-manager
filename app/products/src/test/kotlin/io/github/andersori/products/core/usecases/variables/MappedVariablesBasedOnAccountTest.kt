@@ -2,6 +2,9 @@ package io.github.andersori.products.core.usecases.variables
 
 import io.github.andersori.products.core.ports.out.AccountInformation
 import io.github.andersori.products.core.usecases.variables.unique.FindAccount
+import io.github.andersori.products.core.usecases.variables.unique.FindActiveAccount
+import io.github.andersori.products.core.usecases.variables.unique.FindFakeAccount
+import io.github.andersori.products.core.usecases.variables.unique.FindTestAccount
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -18,7 +21,12 @@ class MappedVariablesBasedOnAccountTest {
     @BeforeEach
     fun before() {
         accountInformation = mock<AccountInformation>()
-        mappedVariablesBasedOnAccount = MappedVariablesBasedOnAccount(accountInformation)
+        mappedVariablesBasedOnAccount = MappedVariablesBasedOnAccount(
+            accountInformation,
+            FindTestAccount(),
+            FindActiveAccount(),
+            FindFakeAccount()
+        )
     }
 
     @Test

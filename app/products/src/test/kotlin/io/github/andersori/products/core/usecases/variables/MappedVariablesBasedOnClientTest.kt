@@ -2,6 +2,8 @@ package io.github.andersori.products.core.usecases.variables
 
 import io.github.andersori.products.core.ports.out.ClientInformation
 import io.github.andersori.products.core.usecases.variables.unique.FindClient
+import io.github.andersori.products.core.usecases.variables.unique.FindSPG
+import io.github.andersori.products.core.usecases.variables.unique.FindStates
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -18,7 +20,11 @@ class MappedVariablesBasedOnClientTest {
     @BeforeEach
     fun before() {
         clientInformation = mock<ClientInformation>()
-        mappedVariablesBasedOnClient = MappedVariablesBasedOnClient(clientInformation)
+        mappedVariablesBasedOnClient = MappedVariablesBasedOnClient(
+            clientInformation,
+            FindSPG(),
+            FindStates()
+        )
     }
 
     @Test

@@ -7,8 +7,10 @@ import io.github.andersori.products.core.ports.out.ClientInformation
 import io.github.andersori.products.core.usecases.AsyncSearchAllVariables
 import io.github.andersori.products.core.usecases.SyncSearchAllVariables
 import io.github.andersori.products.core.usecases.impl.SearchAllVariables
+import io.github.andersori.products.core.usecases.variables.MappedVariables
 import io.github.andersori.products.core.usecases.variables.MappedVariablesBasedOnAccount
 import io.github.andersori.products.core.usecases.variables.MappedVariablesBasedOnClient
+import io.github.andersori.products.core.usecases.variables.unique.*
 import io.github.andersori.utils.CustomLoggerFactory
 import io.github.andersori.utils.Logger
 import kotlinx.coroutines.runBlocking
@@ -24,23 +26,37 @@ class CommandLineApp {
 fun main() {
     CommandLineApp.logger.info("iniciando CommandLineApp")
 
+    val mappedVariablesBasedOnClient: MappedVariables<String, Client> =
+        MappedVariablesBasedOnClient(
+            clientInformation = object : ClientInformation {
+                override fun find(id: String): Client {
+                    return Client(
+                        cpf = "000.000.003-00"
+                    )
+                }
+            },
+            FindSPG(),
+            FindStates()
+        )
+    val mappedVariablesBasedOnAccount: MappedVariables<String, Account> =
+        MappedVariablesBasedOnAccount(
+            accountInformation = object : AccountInformation {
+                override fun find(id: String): Account {
+                    return Account(
+                        id = UUID.randomUUID().toString(),
+                        name = "TEST",
+                        active = true
+                    )
+                }
+            },
+            FindTestAccount(),
+            FindActiveAccount(),
+            FindFakeAccount()
+        )
+
     val searchImplementation = SearchAllVariables(
-        mappedVariablesBasedOnClient = MappedVariablesBasedOnClient(object : ClientInformation {
-            override fun find(id: String): Client {
-                return Client(
-                    cpf = "000.000.003-00"
-                )
-            }
-        }),
-        mappedVariablesBasedOnAccount = MappedVariablesBasedOnAccount(object : AccountInformation {
-            override fun find(id: String): Account {
-                return Account(
-                    id = UUID.randomUUID().toString(),
-                    name = "TEST",
-                    active = true
-                )
-            }
-        })
+        mappedVariablesBasedOnClient,
+        mappedVariablesBasedOnAccount
     )
     val syncSearchAllVariables: SyncSearchAllVariables = searchImplementation
     val asyncSearchAllVariables: AsyncSearchAllVariables = searchImplementation
@@ -78,7 +94,7 @@ fun main() {
         try {
             runBlocking {
                 println(
-                    "Sync Result -> ${
+                    "Async Result -> ${
                         asyncSearchAllVariables.asyncSearch(
                             identifier = "1234",
                             *customArgs

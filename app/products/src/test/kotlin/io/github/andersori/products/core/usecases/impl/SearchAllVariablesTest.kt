@@ -36,7 +36,7 @@ class SearchAllVariablesTest {
             on { configRootHandler(any<Boolean>(), anyVararg()) } doReturn rootFindAccount
         }
         logger = mock<Logger>()
-        searchAllVariables = SearchAllVariables(mappedVariablesBasedOnClient, mappedVariablesBasedOnAccount, logger)
+        searchAllVariables = SearchAllVariables(mappedVariablesBasedOnClient, mappedVariablesBasedOnAccount, logger=logger)
     }
 
     @Test
@@ -88,7 +88,7 @@ class SearchAllVariablesTest {
                 eq("c"),
                 eq("d")
             )
-        verifyNoInteractions(logger)
+        verify(logger, times(1)).info("waiting all...")
     }
 
     @Test
@@ -137,7 +137,7 @@ class SearchAllVariablesTest {
                 eq("c"),
                 eq("d")
             )
-        verify(logger, times(1)).info("waiting...")
+        verify(logger, times(1)).info("waiting all...")
     }
 
     @Test
@@ -176,6 +176,6 @@ class SearchAllVariablesTest {
                 eq("c"),
                 eq("d")
             )
-        verify(logger, times(1)).info("waiting...")
+        verify(logger, times(1)).info("waiting all...")
     }
 }
