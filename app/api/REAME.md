@@ -1,1 +1,1 @@
-http://localhost:8081/vars/b1e185a7-7632-4cfc-bcbd-a07830f88b2a?vars?SPG
+http://localhost:8081/vars/b1e185a7-7632-4cfc-bcbd-a07830f88b2a?vars=SPG,STATES,TEST_ACCOUNT,ACTIVE_ACCOUNT,FAKE_ACCOUNT
