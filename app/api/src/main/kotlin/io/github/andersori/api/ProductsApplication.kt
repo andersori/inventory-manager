@@ -9,7 +9,7 @@ class ProductsApplication
 
 val logger = CustomLoggerFactory.inline(ProductsApplication::class.java)
 
-suspend fun main(args: Array<String>) {
+fun main(args: Array<String>) {
 	logger.info("Iniciando o APP")
 	runApplication<ProductsApplication>(*args)
 	logger.info("APP iniciado")

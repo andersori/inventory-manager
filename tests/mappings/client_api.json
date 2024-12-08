@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/client/v1/b1e185a7-7632-4cfc-bcbd-a07830f88b2a"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "client_found.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

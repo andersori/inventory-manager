@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
 	implementation(project(":utils"))
+	implementation(project(":core"))
 
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

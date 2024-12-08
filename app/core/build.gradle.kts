@@ -11,13 +11,14 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":utils"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-    implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.0")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 tasks.test {
@@ -34,6 +35,7 @@ tasks.jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir("reports/jacoco")
     }
 }
+
 kotlin {
     jvmToolchain(17)
 }
