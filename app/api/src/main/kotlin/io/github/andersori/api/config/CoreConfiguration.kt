@@ -1,15 +1,15 @@
 package io.github.andersori.api.config
 
-import io.github.andersori.core.adapters.InMemoryAccountInformation
-import io.github.andersori.core.adapters.api.ApiClientInformation
-import io.github.andersori.core.domain.Account
-import io.github.andersori.core.domain.Client
-import io.github.andersori.core.ports.`in`.SearchVariables
-import io.github.andersori.core.usecases.VariablesAllSearch
-import io.github.andersori.core.usecases.variables.MappedVariables
-import io.github.andersori.core.usecases.variables.MappedVariablesBasedOnAccount
-import io.github.andersori.core.usecases.variables.MappedVariablesBasedOnClient
-import io.github.andersori.core.usecases.variables.unique.*
+import io.github.andersori.core.v1.adapters.InMemoryAccountInformation
+import io.github.andersori.core.v1.adapters.api.ApiClientInformation
+import io.github.andersori.core.v1.domain.Account
+import io.github.andersori.core.v1.domain.Client
+import io.github.andersori.core.v1.ports.`in`.SearchVariables
+import io.github.andersori.core.v1.usecases.VariablesAllSearch
+import io.github.andersori.core.v1.usecases.variables.MappedVariables
+import io.github.andersori.core.v1.usecases.variables.MappedVariablesBasedOnAccount
+import io.github.andersori.core.v1.usecases.variables.MappedVariablesBasedOnClient
+import io.github.andersori.core.v1.usecases.variables.unique.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.net.http.HttpClient

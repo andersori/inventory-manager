@@ -2,7 +2,7 @@ package io.github.andersori.api.controllers
 
 import io.github.andersori.api.controllers.dto.Response
 import io.github.andersori.api.controllers.dto.ResponseData
-import io.github.andersori.core.ports.`in`.SearchVariables
+import io.github.andersori.core.v1.ports.`in`.SearchVariables
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
