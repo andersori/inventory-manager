@@ -27,4 +27,8 @@ class ApiClientInformation(
             throw ClientNotFound("Client not found: ${ex.type()}/${ex.message}")
         }
     }
+
+    override suspend fun find(token: String, id: String): Client {
+        TODO("Not yet implemented")
+    }
 }

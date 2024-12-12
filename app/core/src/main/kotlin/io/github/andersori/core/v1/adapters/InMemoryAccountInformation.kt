@@ -17,4 +17,8 @@ class InMemoryAccountInformation : AccountInformation {
             active = true
         )
     }
+
+    override suspend fun find(token: String, id: String): Account {
+        TODO("Not yet implemented")
+    }
 }

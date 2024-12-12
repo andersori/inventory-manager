@@ -14,4 +14,8 @@ class InMemoryClientInformation : ClientInformation {
             cpf = "000.000.003-00"
         )
     }
+
+    override suspend fun find(token: String, id: String): Client {
+        TODO("Not yet implemented")
+    }
 }
